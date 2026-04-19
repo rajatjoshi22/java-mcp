@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-ItenaryApplication<itenary>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.travelling.itenary.ItenaryApplication",
+            "projectName": "itenary",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
