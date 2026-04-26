@@ -1,0 +1,50 @@
+:root {
+  --primary: #6366f1;
+  --bg: #0f172a;
+  --glass: rgba(255, 255, 255, 0.03);
+}
+
+.glass-wrapper {
+  background: radial-gradient(circle at top left, #1e293b, #0f172a);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #e2e8f0;
+}
+
+.app-card {
+  width: 90%;
+  max-width: 900px;
+  background: var(--glass);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 28px;
+  padding: 40px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+textarea {
+  width: 100%;
+  height: 120px;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 15px;
+  color: white;
+  margin: 20px 0;
+  resize: none;
+}
+
+.streaming-code {
+  font-family: 'Fira Code', monospace;
+  color: #a5f3fc;
+}
+
+.cursor {
+  animation: blink 1s infinite;
+  color: var(--primary);
+  font-weight: bold;
+}
+
+@keyframes blink { 50% { opacity: 0; } }

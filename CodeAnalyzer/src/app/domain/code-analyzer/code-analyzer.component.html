@@ -1,0 +1,36 @@
+<div class="glass-wrapper">
+  <div class="app-card">
+    <header class="app-header">
+      <div class="header-icon">⚡</div>
+      <h2>FSD Code Generator</h2>
+    </header>
+
+    <div class="input-section">
+      <!-- Modernized File Upload -->
+      <label class="file-drop-zone">
+        <input type="file" (change)="onFileSelected($event)" multiple accept="application/pdf">
+        <span class="upload-text">
+           {{ selectedFiles.length > 0 ? selectedFiles.length + ' files selected' : 'Drop PDF files or Click to Upload' }}
+        </span>
+      </label>
+      
+      <textarea [(ngModel)]="prompt" placeholder="Describe your logic (e.g., Generate in Java 21)"></textarea>
+      
+      <button class="btn-generate" (click)="submit()" [disabled]="selectedFiles.length === 0 || isGenerating">
+        <span>{{ isGenerating ? 'Generating...' : 'Start Generation' }}</span>
+      </button>
+    </div>
+
+    <!-- Output Box with Streaming State -->
+    <div class="output-container" *ngIf="_fsdService.generatedCode() || isGenerating">
+      <div class="output-header">
+        <span>Generated Output</span>
+        <button class="btn-copy" (click)="copyToClipboard()">Copy</button>
+      </div>
+      <div class="output-box">
+        <pre><code class="streaming-code">{{ _fsdService.generatedCode() }}</code></pre>
+        <span class="cursor" *ngIf="isGenerating">|</span>
+      </div>
+    </div>
+  </div>
+</div>

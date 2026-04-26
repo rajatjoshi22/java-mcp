@@ -9,6 +9,27 @@
             "projectName": "itenary",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-CargoAnalyzerApplication<cargo-analyzer>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "cargoanalyzer.cargo_analyzer.CargoAnalyzerApplication",
+            "projectName": "cargo-analyzer",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=60575 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=cargo-analyzer"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-CodeAnalyzerApplication<code-analyzer>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.codeanalyzer.code_analyzer.CodeAnalyzerApplication",
+            "projectName": "code-analyzer",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
         }
     ]
 }
