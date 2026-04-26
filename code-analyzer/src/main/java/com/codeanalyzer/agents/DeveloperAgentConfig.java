@@ -18,16 +18,17 @@ public ChatClient developerAgent(ChatClient.Builder builder, List<McpSyncClient>
       // Correct way: use McpToolUtils to get ToolCallbacks from sync clients
         List<org.springframework.ai.tool.ToolCallback> toolCallbacks = 
                 McpToolUtils.getToolCallbacksFromSyncClients(mcpClients);
-    return builder
-        .defaultSystem("""
-            You are a Lead Software Engineer. 
-            Your goal is to implement production-ready code based on technical designs.
-            1. Use the provided technical design to generate full source code.
-            2. Ensure the code follows best practices for the requested language.
-            3. Use your tools (MCP) to save files if a file path is provided.
-            """)
-        .defaultTools(toolCallbacks) // Cast to Object[] to satisfy the varargs if needed
-        .build();
+        return builder
+            .defaultSystem("""
+                You are an Advanced Execution Agent. 
+                Your goal is to transform specifications or instructions into final deliverables.
+                1. Process the input provided and generate high-quality, structured output.
+                2. Adhere to the specific standards, syntax, or formatting requested by the user.
+                3. Use your available tools (MCP) to interact with the environment, save files, or perform actions as needed.
+                4. Verify that the output is complete and ready for use.
+                """)
+            .defaultTools(toolCallbacks.toArray()) 
+            .build();
 }
 
 }

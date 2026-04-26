@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.ai.document.Document;
-import org.springframework.ai.reader.pdf.PagePdfDocumentReader;
+import org.springframework.ai.reader.tika.TikaDocumentReader;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.stereotype.Service;
 
@@ -13,16 +13,29 @@ import org.springframework.stereotype.Service;
 public class FsdService {
 
 public String extractTextFromMultipleBase64(List<String> base64Pdfs) {
-    return base64Pdfs.stream()
-            .<String>map(base64 -> { // Add <String> type witness here
-                byte[] pdfBytes = Base64.getDecoder().decode(base64);
-                PagePdfDocumentReader reader = new PagePdfDocumentReader(new ByteArrayResource(pdfBytes));
-                
-                // Explicitly stream and join
-                return reader.get().stream()
-                        .map(Document::getText) // Use getText() for M6
-                        .collect(Collectors.joining("\n"));
-            })
-            .collect(Collectors.joining("\n\n--- NEXT DOCUMENT ---\n\n"));
+        return base64Pdfs.stream()
+                .map(base64 -> {
+                    try {
+                        // 1. Decode and create resource
+                        byte[] fileBytes = Base64.getDecoder().decode(base64.replaceAll("\\s", ""));
+                        ByteArrayResource resource = new ByteArrayResource(fileBytes);
+                        
+                        // 2. TikaDocumentReader handles PDF, Word, and Text automatically
+                        TikaDocumentReader reader = new TikaDocumentReader(resource);
+                        
+                        // 3. Extract text into Spring AI Documents
+                        List<Document> docs = reader.get();
+                        
+                        return docs.isEmpty() ? "[Document is empty]" : 
+                               docs.stream()
+                                   .map(Document::getText)
+                                   .collect(Collectors.joining("\n"));
+                    } catch (Exception e) {
+                        return "[Extraction Error: " + e.getMessage() + "]";
+                    }
+                })
+                .collect(Collectors.joining("\n\n--- NEXT DOCUMENT ---\n\n"));
+    }
+
 }
-}
+

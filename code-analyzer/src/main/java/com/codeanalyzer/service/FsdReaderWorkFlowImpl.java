@@ -28,13 +28,13 @@ public class FsdReaderWorkFlowImpl  implements FsdReaderWorkFlow {
 
     // Step 2: Analyst Agent processes the aggregated document
     String technicalDesign = analystAgent.prompt()
-            .user("Analyze these related FSD documents and create a unified technical design: " + combinedFsdText)
+            .user("Analyze these document and provide description what they are about: " + combinedFsdText)
             .call()
             .content();
 
     // Step 3: Developer Agent generates final code
     return developerAgent.prompt()
-            .user(u -> u.text("Technical Design: {design}\nPreference: {pref}")
+            .user(u -> u.text("document description: {design}\nPreference: {pref}")
                 .param("design", technicalDesign)
                 .param("pref", prompt))
              .stream()
