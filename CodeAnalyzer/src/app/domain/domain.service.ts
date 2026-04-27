@@ -14,10 +14,11 @@ export class DomainService {
     
     const base64Files = await Promise.all(files.map(f => this.toBase64(f)));
 
-    const response = await fetch('http://localhost:9099/generate', {
+    const response = await fetch('http://localhost:9199/ocr/read', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ base64Content: base64Files, userPrompt: prompt })
+      //body: JSON.stringify({ base64Content: base64Files, userPrompt: prompt })
+      body: JSON.stringify({ imageUrls: base64Files, userquerString: prompt })
     });
 
     const reader = response.body?.getReader();
@@ -40,7 +41,8 @@ export class DomainService {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
-      reader.onload = () => resolve((reader.result as string).split(',')[1]);
+      //reader.onload = () => resolve((reader.result as string).split(',')[1]);
+      reader.onload = () => resolve((reader.result as string));
       reader.onerror = error => reject(error);
     });
   }
